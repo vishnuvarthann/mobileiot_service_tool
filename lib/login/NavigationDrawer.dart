@@ -138,7 +138,7 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
     Navigator.pop(context);
     switch (menu) {
       case Menu.aboutus:
-        Navigator.pushNamed(context, '/Wifiscan',
+        Navigator.pushNamed(context, '/Wifiiot',
             arguments: {'type': Menu.aboutus});
         break;
       case Menu.loginotp:
@@ -149,7 +149,7 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
         break;
      
       case Menu.signOut:
-        Navigator.pushNamed(context, '/signOut',
+        Navigator.pushNamed(context, '/DevicesListScreen',
             arguments: {'type': Menu.signOut});
         break;
     }

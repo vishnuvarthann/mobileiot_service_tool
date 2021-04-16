@@ -2,9 +2,12 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:mobileiot_service_tool/login/Authentication.dart';
+import 'package:mobileiot_service_tool/login/DevicesListScreen.dart';
 import 'package:mobileiot_service_tool/login/Login.dart';
 import 'package:mobileiot_service_tool/login/SignOut.dart';
-import 'package:mobileiot_service_tool/login/Wifiscan.dart';
+import 'package:mobileiot_service_tool/login/GatewayScanning.dart';
+import 'package:mobileiot_service_tool/login/SshServer.dart';
+import 'package:mobileiot_service_tool/login/Wifiiot.dart';
 import 'package:mobileiot_service_tool/login/sideBar/GridHeader.dart';
 
 void main() => runApp(MyApp());
@@ -23,11 +26,12 @@ class MyApp extends StatelessWidget {
          '/Authentication': (BuildContext context) => Authentication(),
          '/login': (BuildContext context) => Login(),
          '/signOut': (BuildContext context) => SignOut(),
-        // '/loginotp': (BuildContext context) =>
-        //     PinCodeVerificationScreen("8801376221100"),
-        //  '/Aboutfragment':(context) =>Aboutfragment(),
-         '/Wifiscan':(context)=> Wifiscan(),
-         '/GridHeader':(context)=>GridHeader()
+         '/Wifiscan':(context)=> GatewayScanning(),
+         '/GridHeader':(context)=>GridHeader(),
+         '/sshServer' :(context)=>SshServer(),
+         '/Wifiiot':(context)=>Wifiiot(),
+         '/DevicesListScreen':(context)=> DevicesListScreen()
+
       },
     );
   }

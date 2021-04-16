@@ -7,7 +7,17 @@ class SshServer extends StatefulWidget {
   _SshServerState createState() => new _SshServerState();
 }
 
+
+
 class _SshServerState extends State<SshServer> {
+
+ @override
+  void initState() {
+    super.initState();
+    
+  }
+
+
   String _result = " ";
   List _array;
 

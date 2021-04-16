@@ -1,39 +1,19 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:mobileiot_service_tool/login/SshServer.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:wifi/wifi.dart';
 
-class Wifiscan extends StatefulWidget {
+class GatewayScanning extends StatefulWidget {
   @override
-  _WifiscanState createState() => new _WifiscanState();
+  _GatewayScanningState createState() => new _GatewayScanningState();
 }
 
-class _WifiscanState extends State<Wifiscan> {
- @override
-  Widget build(BuildContext context) {
-    return new MaterialApp(
-      title: 'Wifi',
-      theme: new ThemeData(
-        primarySwatch: Colors.yellow
-      ),
-      home: new MyHomePage(),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  @override
-  _MyHomePageState createState() => new _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
+class _GatewayScanningState extends State<GatewayScanning> {
   String _wifiName = 'Connected  wifi ssid.';
   int level = 0;
   String _ip = 'Connected to Ip.';
   List ssidList = [];
   String ssid = '', password = '';
-
 
   @override
   void initState() {
@@ -45,17 +25,38 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('MobileIOT'),
+        title: Text('Avilable Gateway'),
       ),
       body: SafeArea(
         child: ListView.builder(
           padding: EdgeInsets.all(8.0),
-          itemCount: ssidList.length + 1,
+          itemCount: ssidList.length,
           itemBuilder: (BuildContext context, int index) {
-            return itemSSID(index);
-            
-           
-         
+            if (ssidList.length!=0){
+               for(int i=0;i<ssidList.length;i++){
+                   if (ssidList[i].ssid.contains("IQAN -") == true){
+                     print(ssidList[i].ssid.toString());
+                   }
+               }
+            }
+            // return itemSSID(index);
+            return GestureDetector(
+              onTap: () => _selectedItem(ssidList[index].ssid, context),
+              child: Card(
+                child: Container(
+                  decoration: BoxDecoration(color: Colors.white),
+                  child: new ListTile(
+                      trailing: Icon(Icons.navigate_next,
+                          color: Colors.black, size: 30.0),
+                      title: new Text(ssidList[index].ssid,
+                          style: TextStyle(
+                              color: Colors.black87,
+                              fontStyle: FontStyle.normal,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold))),
+                ),
+              ),
+            );
           },
         ),
       ),
@@ -66,9 +67,9 @@ class _MyHomePageState extends State<MyHomePage> {
     if (index == 0) {
       return Column(
         children: [
-          Row(children:<Widget> [
-            Text("Connected Gateway")
-          ],),
+          Row(
+            children: <Widget>[Text("Connected Gateway")],
+          ),
           Row(
             children: <Widget>[
               RaisedButton(
@@ -99,42 +100,13 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             )
           ]),
-          TextField(
-            decoration: InputDecoration(
-              border: UnderlineInputBorder(),
-              filled: true,
-              icon: Icon(Icons.wifi_lock),
-              hintText: 'Your wifi ssid',
-              labelText: 'ssid',
-            ),
-            keyboardType: TextInputType.text,
-            onChanged: (value) {
-              ssid = value;
-            },
-          ),
-          TextField(
-            decoration: InputDecoration(
-              border: UnderlineInputBorder(),
-              filled: true,
-              icon: Icon(Icons.lock_outline),
-              hintText: 'Your wifi password',
-              labelText: 'password',
-            ),
-            keyboardType: TextInputType.text,
-            onChanged: (value) {
-              password = value;
-            },
-          ),
-          RaisedButton(
-            child: Text('connection'),
-            onPressed: connection,
-          ),
-         ],
-       );
-    } else { 
+         
+        ],
+      );
+    } else {
       return Column(children: <Widget>[
         ListTile(
-          leading:Icon(Icons.wifi),
+          leading: Icon(Icons.wifi),
           title: Text(
             ssidList[index - 1].ssid,
             style: TextStyle(
@@ -149,14 +121,13 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 
-
-void loadData() {
-Wifi.list('').then((list) {
-setState(() {
-ssidList = list;
-});
-});
-}
+  void loadData() {
+    Wifi.list('').then((list) {
+      setState(() {
+        ssidList = list;
+      });
+    });
+  }
   // void loadData() async {
   //   Wifi.list('').then((list) {
   //       print(list.length);
@@ -167,15 +138,14 @@ ssidList = list;
   //                ssidList = list;
   //     });
   //       }
-      
+
   //     }
-     
+
   //   });
   // }
 
   Future<Null> _getWifiName() async {
-       
-     int l = await Wifi.level;
+    int l = await Wifi.level;
     String wifiName = await Wifi.ssid;
     setState(() {
       level = l;
@@ -190,19 +160,33 @@ ssidList = list;
     });
   }
 
-  Future<Null> connection() async {
+  Future<Null> connection(String ssid, String password) async {
     Wifi.connection(ssid, password).then((v) {
- Navigator.push(
-                context,
-               MaterialPageRoute(builder: (context) => SshServer()),
-              );
-
       print(v);
     });
   }
+
+  _selectedItem(String string, BuildContext context) {
+    Alert(
+        context: context,
+        title: string,
+        content: Column(
+          children: <Widget>[
+          ],
+        ),
+        buttons: [
+          DialogButton(
+          
+            onPressed: () async {
+              connection(string,"IQAN_Connect");
+              Navigator.pushNamed(context, '/sshServer',arguments :'shellscript');
+            }, child: Text(
+              "Connect",
+              style: TextStyle(color: Colors.white, fontSize: 20),
+            ),
+           
+      ),
+          
+        ]).show();
+  }
 }
-
-  
-  
-
-  

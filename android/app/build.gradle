@@ -44,6 +44,7 @@ lintOptions {
         versionName flutterVersionName
     }
 
+
     buildTypes {
         release {
             // TODO: Add your own signing config for the release build.
@@ -62,4 +63,5 @@ flutter {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+//    implementation 'com.google.android.gms:play-services-maps:16.0.0'
 }

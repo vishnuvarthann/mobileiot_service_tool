@@ -53,22 +53,14 @@ class _LandingFragmentState extends State<LandingFragment> {
                               this._clicked(route, context, id),
                           route: '/Wifiscan',
                           title: MIOT.login),
-                      AppButton(
-                        id: 'logOut',
-                        width: size.width * 0.7,
-                        height: size.height * 0.07,
-                        onPressed: (route, count, id) =>
-                            this._clicked(route, context, id),
-                        route: '/logOut',
-                        title: MIOT.logOut,
-                      ),
+                     
                       AppButton(
                         id: 'help',
                         width: size.width * 0.7,
                         height: size.height * 0.07,
                         onPressed: (route, count, id) =>
                             this._clicked(route, context, id),
-                        route: '/help',
+                        route: '/wificonnect',
                         title: MIOT.help,
                       ),
                       SizedBox(height: 30,),
